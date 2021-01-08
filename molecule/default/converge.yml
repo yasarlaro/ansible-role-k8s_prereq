@@ -1,6 +1,7 @@
 ---
 - name: Converge
   hosts: all
+  become: true
   tasks:
     - name: "Include ansible-role-k8s_prereq"
       include_role:

@@ -1,0 +1,11 @@
+---
+- name: Check if SElinux config exists
+  stat:
+    path: /etc/selinux/config
+  register: selinux_config
+
+- name: Make SELinux permissive if not disabled
+  selinux:
+    policy: "{{ selinux_policy }}"
+    state: "{{ selinux_state }}"
+  when: selinux_config.stat.exists

@@ -1,10 +1,55 @@
 ---
+# dependency:
+#   name: galaxy
+# driver:
+#   name: delegated
+# platforms:
+#   - name: instance
+# provisioner:
+#   name: ansible
+# verifier:
+#   name: ansible
 dependency:
   name: galaxy
 driver:
-  name: delegated
+  name: vagrant
+  provider:
+    name: libvirt
+lint: |
+  yamllint .
+  ansible-lint
 platforms:
-  - name: instance
+  - name: master1
+    box: centos/7
+    memory: 2048
+    cpus: 2
+    groups:
+      - master
+  - name: master2
+    box: generic/ubuntu1804
+    memory: 2048
+    cpus: 2
+    groups:
+      - master
+  - name: node1
+    box: centos/7
+    memory: 2048
+    cpus: 2
+    groups:
+      - node
+  - name: node2
+    box: generic/ubuntu1804
+    memory: 2048
+    cpus: 2
+    groups:
+      - node
+  - name: node3
+    box: generic/ubuntu2004
+    memory: 2048
+    cpus: 2
+    groups:
+      - node
+
 provisioner:
   name: ansible
 verifier:

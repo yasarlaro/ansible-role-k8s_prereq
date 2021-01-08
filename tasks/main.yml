@@ -1,2 +1,22 @@
 ---
 # tasks file for ansible-role-k8s_prereq
+- name: Setting OS version fact
+  set_fact:
+    osversion: "{{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}"
+
+- name: Check OS version
+  fail:
+    msg: "OS Version( {{ ansible_distribution }}{{ ansible_distribution_major_version }} ) is not certified for the role"
+  when:
+    - osversion != "ubuntu20"
+    - osversion != "ubuntu18"
+    - osversion != "centos7"
+
+- name: Disable swap
+  include_tasks: disable_swap.yaml
+
+- name: Disable SELinux
+  include_tasks: selinux.yaml
+
+- name: Apply firewall rules
+  include_tasks: firewalld.yaml

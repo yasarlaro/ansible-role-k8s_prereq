@@ -1,0 +1,19 @@
+---
+- name: Disable swap
+  command: swapoff -a
+  when: ansible_swaptotal_mb > 0
+  tags:
+    - skip_ansible_lint
+
+# Removing swap LV can cause issues if your grub dependant in it
+# I will only comment it out
+- name: Remove swap from fstab
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s.*)$'
+    replace: '# \1'
+
+- name: Remove swap file if exists
+  file:
+    path: "{{ swapfile_path }}"
+    state: absent
