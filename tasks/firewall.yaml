@@ -1,5 +1,4 @@
 ---
-
 - name: Allow firewall for Control-plane node(s)
   block:
     - name: CentOS Control-plane node(s) firewall rules

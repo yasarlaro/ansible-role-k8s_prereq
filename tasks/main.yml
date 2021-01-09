@@ -19,4 +19,4 @@
   include_tasks: selinux.yaml
 
 - name: Apply firewall rules
-  include_tasks: firewalld.yaml
+  include_tasks: firewall.yaml
