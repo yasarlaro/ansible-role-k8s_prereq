@@ -41,7 +41,7 @@
       when: ansible_distribution | lower == "centos"
 
     - name: Ubuntu Worker node(s) firewall rules
-      community.general.ufw:
+      ufw:
         rule: allow
         port: "{{ item }}"
         proto: tcp
