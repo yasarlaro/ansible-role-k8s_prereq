@@ -20,3 +20,6 @@
 
 - name: Apply firewall rules
   include_tasks: firewall.yaml
+
+- name: Apply kernel modules
+  include_tasks: kernel.yaml

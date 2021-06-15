@@ -1,0 +1,30 @@
+---
+- name: Enable kernel module
+  lineinfile:
+    path: /etc/modules-load.d/k8s.conf
+    line: "{{ item }}"
+    state: present
+    create: true
+    mode: '0644'
+  loop:
+    - overlay
+    - br_netfilter
+
+- name: Reload kernel modules
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - overlay
+    - br_netfilter
+
+- name: Setup required sysctl params
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/k8s.conf
+    reload: true
+  loop:
+    - { name: net.bridge.bridge-nf-call-iptables, value: 1 }
+    - { name: net.ipv4.ip_forward, value: 1}
+    - { name: net.bridge.bridge-nf-call-ip6tables, value: 1}
